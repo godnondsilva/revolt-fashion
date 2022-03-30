@@ -7,11 +7,11 @@
 
   .logo-container {
     height: 100%;
-    width: 100px;
+    width: 70px;
     padding: 25px;
-
-    .logo {
-      font-weight: 600;
+    
+    &:hover {
+      opacity: 0.8;
     }
   }
 
@@ -25,6 +25,11 @@
     .nav-link {
       padding: 10px 15px;
       cursor: pointer;
+      font-weight: bold;
+
+      &:hover {
+        opacity: 0.6;
+      }
     }
   }
 }

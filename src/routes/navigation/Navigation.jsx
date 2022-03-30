@@ -3,12 +3,15 @@ import { Outlet, Link } from 'react-router-dom';
 
 import './navigation.styles.scss';
 
+import { ReactComponent as RevoltLogo } from '../../assets/logo.svg';
+
 const Navigation = () => {
     return (
         <Fragment>
             <div className='navigation'>
                 <Link className='logo-container' to='/'>    
-                    <div className='logo'>Revolt Fashion</div>
+                    {/* <div className='logo'>Revolt Fashion</div> */}
+                    <RevoltLogo className='logo' />
                 </Link>
                 <div className='nav-links-container'>
                     <Link className='nav-link' to='/'>
