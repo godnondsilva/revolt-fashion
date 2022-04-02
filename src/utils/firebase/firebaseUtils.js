@@ -78,3 +78,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 	return await signInWithEmailAndPassword(auth, email, password);
 };
+
+// Function used to call the signOut function to sign out the user from the firebase authentication
+export const signOutUser = async () => await auth.signOut();

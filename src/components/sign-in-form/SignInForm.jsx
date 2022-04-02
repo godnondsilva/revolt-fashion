@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
 	signInAuthUserWithEmailAndPassword,
 	createUserDocumentFromAuth,
@@ -7,6 +7,8 @@ import {
 
 import FormInput from '../form-input/FormInput';
 import Button from '../button/Button';
+
+import { UserContext } from '../../contexts/userContext';
 
 import './SignInForm.scss';
 
@@ -19,10 +21,14 @@ const SignInForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
 
+	const { setCurrentUser } = useContext(UserContext);
+
 	// Function to handle the sign in with google popup
 	const signInWithGoogle = async () => {
 		const { user } = await signInWithGooglePopup();
 		createUserDocumentFromAuth(user);
+		// Store the user in the context
+		setCurrentUser(user);
 	};
 
 	const handleChange = (event) => {
@@ -39,11 +45,13 @@ const SignInForm = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await signInAuthUserWithEmailAndPassword(
+			const { user } = await signInAuthUserWithEmailAndPassword(
 				email,
 				password,
 			);
-			console.log(response);
+			// Store the user in the context
+			setCurrentUser(user);
+			// Reset the form fields to the default values
 			resetFormFields(defaultFormFields);
 		} catch (error) {
 			switch (error.code) {
@@ -55,7 +63,7 @@ const SignInForm = () => {
 				case 'auth/user-not-found':
 					alert('There is no user with this email');
 					break;
-				// unknown error (OR) unhandled error cases
+				// unknown errors (OR) unhandled error cases
 				default:
 					alert('There was an error signing in');
 			}
