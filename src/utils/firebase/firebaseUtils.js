@@ -5,6 +5,8 @@ import {
 	signInWithPopup,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+	signOut,
+	onAuthStateChanged,
 } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
@@ -80,4 +82,8 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 // Function used to call the signOut function to sign out the user from the firebase authentication
-export const signOutUser = async () => await auth.signOut();
+export const signOutUser = async () => await signOut(auth);
+
+// Function used to call the onAuthStateChanged function to listen to the user authentication state
+export const onAuthStateChangedListener = (callback) =>
+	onAuthStateChanged(auth, callback);
