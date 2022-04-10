@@ -9,7 +9,16 @@ import {
 	onAuthStateChanged,
 } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+	getFirestore,
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+	writeBatch,
+	query,
+	getDocs,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyCE3fdbR6MUw5_3sFr6m3dJvx90PvqDMpM',
@@ -87,3 +96,35 @@ export const signOutUser = async () => await signOut(auth);
 // Function used to call the onAuthStateChanged function to listen to the user authentication state
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
+
+// Function to add initial products data to the firestore [TO BE RUN ONLY ONCE]
+export const addCollectionAndDocuments = async (
+	collectionsKey,
+	objectsToAdd,
+) => {
+	const collectionRef = collection(db, collectionsKey);
+	const batch = writeBatch(db);
+
+	objectsToAdd.forEach((object) => {
+		const docRef = doc(collectionRef, object.title.toLowerCase());
+		batch.set(docRef, object);
+	});
+
+	await batch.commit();
+	console.log('Successfully added data to the firestore!');
+};
+
+// Function to get the initial categories data to the firestore
+export const getCategoriesAndDocuments = async () => {
+	const collectionRef = collection(db, 'categories');
+	const q = query(collectionRef);
+
+	const querySnapshot = await getDocs(q);
+	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+		const { title, items } = docSnapshot.data();
+		acc[title.toLowerCase()] = items;
+		return acc;
+	}, {});
+
+	return categoryMap;
+};
