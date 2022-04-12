@@ -1,6 +1,6 @@
 import CategoryItem from '../category-item/CategoryItem';
 
-import './Categories.scss';
+import { CategoriesContainer } from './Categories.styles';
 
 const categories = [
 	{
@@ -37,11 +37,11 @@ const categories = [
 
 const Categories = () => {
 	return (
-		<div className='categories-container'>
+		<CategoriesContainer>
 			{categories.map((category) => (
 				<CategoryItem key={category.id} category={category} />
 			))}
-		</div>
+		</CategoriesContainer>
 	);
 };
 

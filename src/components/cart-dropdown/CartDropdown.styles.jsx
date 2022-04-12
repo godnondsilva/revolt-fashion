@@ -31,7 +31,7 @@ export const Heading = styled.div`
 	margin-bottom: 10px;
 `;
 
-export const EmptyMessage = styled.div`
+export const EmptyMessage = styled.span`
 	font-size: 18px;
 	margin: 50px auto;
 `;
