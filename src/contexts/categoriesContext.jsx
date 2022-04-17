@@ -3,11 +3,11 @@ import { createContext, useState, useEffect } from 'react';
 import { getCategoriesAndDocuments } from '../utils/firebase/firebaseUtils';
 
 export const CategoriesContext = createContext({
-	categoriesMap: [],
+	categoriesMap: {},
 });
 
 export const CategoriesProvider = ({ children }) => {
-	const [categoriesMap, setCategoriesMap] = useState([]);
+	const [categoriesMap, setCategoriesMap] = useState({});
 	const value = { categoriesMap };
 
 	useEffect(() => {
