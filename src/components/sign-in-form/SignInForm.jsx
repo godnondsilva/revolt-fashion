@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import {
-	signInAuthUserWithEmailAndPassword,
-	signInWithGooglePopup,
-} from '../../utils/firebase/firebaseUtils';
+import { useDispatch } from 'react-redux';
 
 import FormInput from '../form-input/FormInput';
 import Button, { BUTTON_TYPES } from '../button/Button';
 
 import { SignUpContainer, Heading, ButtonContainer } from './SignInForm.styles';
+import {
+	emailSignInStart,
+	googleSignInStart,
+} from '../../store/user/userActions';
 
 const defaultFormFields = {
 	email: '',
@@ -18,9 +19,11 @@ const SignInForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
 
+	const dispatch = useDispatch();
+
 	// Function to handle the sign in with google popup
 	const signInWithGoogle = async () => {
-		await signInWithGooglePopup();
+		dispatch(googleSignInStart());
 	};
 
 	const handleChange = (event) => {
@@ -37,23 +40,11 @@ const SignInForm = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			await signInAuthUserWithEmailAndPassword(email, password);
+			dispatch(emailSignInStart(email, password));
 			// Reset the form fields to the default values
 			resetFormFields(defaultFormFields);
 		} catch (error) {
-			switch (error.code) {
-				// If the error code is 'auth/wrong-password' then display that the password is incorrect
-				case 'auth/wrong-password':
-					alert('The password you entered for this email is incorrect');
-					break;
-				// If the error code is 'auth/user-not-found' then display that no user exists for that email
-				case 'auth/user-not-found':
-					alert('There is no user with this email');
-					break;
-				// unknown errors (OR) unhandled error cases
-				default:
-					alert('There was an error signing in');
-			}
+			console.log('Could not sign in with email and password!');
 		}
 	};
 

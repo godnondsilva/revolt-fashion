@@ -73,7 +73,7 @@ export const createUserDocumentFromAuth = async (
 		}
 	}
 
-	return userDocRef;
+	return userSnapshot;
 };
 
 // Function used to call the createUserDocumentFromAuth function to create a new user in the firebase authentication
@@ -96,6 +96,19 @@ export const signOutUser = async () => await signOut(auth);
 // Function used to call the onAuthStateChanged function to listen to the user authentication state
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+	return new Promise((resolve, reject) => {
+		const unsubscribe = onAuthStateChanged(
+			auth,
+			(userAuth) => {
+				unsubscribe();
+				resolve(userAuth);
+			},
+			reject,
+		);
+	});
+};
 
 // Function to add initial products data to the firestore [TO BE RUN ONLY ONCE]
 export const addCollectionAndDocuments = async (
