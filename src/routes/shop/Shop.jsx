@@ -9,6 +9,7 @@ import Category from '../category/Category';
 const Shop = () => {
 	const dispatch = useDispatch();
 
+	// DIspatch the fetchCategoriesState saga to begin the categories fetching phase
 	useEffect(() => {
 		dispatch(fetchCategoriesStart());
 	}, [dispatch]);

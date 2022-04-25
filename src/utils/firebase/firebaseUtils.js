@@ -97,6 +97,7 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
 
+// Function used to call the getCurrentUser function to get the current user using the onAuthStateChanged observer
 export const getCurrentUser = () => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(

@@ -25,6 +25,7 @@ const Navigation = () => {
 
 	const dispatch = useDispatch();
 
+	// DIspatch the signOutStart saga to begin the signing out phase
 	const signOutHandler = async () => dispatch(signOutStart());
 
 	return (
