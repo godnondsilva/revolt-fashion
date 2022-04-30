@@ -1,3 +1,9 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { selectCartTotal } from '../../store/cart/cartSelector';
+import { selectCurrentUser } from '../../store/user/userSelector';
+
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import Button, { BUTTON_TYPES } from '../button/Button';
 
@@ -7,17 +13,24 @@ const PaymentForm = () => {
 	const stripe = useStripe();
 	const elements = useElements();
 
+	const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+	const amount = useSelector(selectCartTotal);
+	const currentUser = useSelector(selectCurrentUser);
+
 	const paymentHandler = async (e) => {
 		e.preventDefault();
 
 		if (!stripe || !elements) return;
+
+		setIsProcessingPayment(true);
 
 		const response = await fetch('/.netlify/functions/createPaymentIntent', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ amount: 100 }),
+			body: JSON.stringify({ amount: amount * 100 }),
 		}).then((response) => response.json());
 
 		const {
@@ -28,12 +41,12 @@ const PaymentForm = () => {
 			payment_method: {
 				card: elements.getElement(CardElement),
 				billing_details: {
-					name: 'Godnon Dsilva',
+					name: currentUser ? currentUser.displayName : 'Guest',
 				},
 			},
 		});
 
-		console.log(paymentResult);
+		setIsProcessingPayment(false);
 
 		if (paymentResult.error) {
 			alert(paymentResult.error.message);
@@ -49,7 +62,12 @@ const PaymentForm = () => {
 			<FormContainer onSubmit={paymentHandler}>
 				<h2>Credit Card Payment:</h2>
 				<CardElement />
-				<Button buttonType={BUTTON_TYPES.inverted}>Pay now</Button>
+				<Button
+					isLoading={isProcessingPayment}
+					buttonType={BUTTON_TYPES.payment}
+				>
+					Pay now
+				</Button>
 			</FormContainer>
 		</PaymentFormContainer>
 	);
