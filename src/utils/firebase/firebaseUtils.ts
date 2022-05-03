@@ -7,6 +7,8 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	onAuthStateChanged,
+	User,
+	NextOrObserver,
 } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import {
@@ -18,7 +20,10 @@ import {
 	writeBatch,
 	query,
 	getDocs,
+	QueryDocumentSnapshot,
 } from 'firebase/firestore';
+import { ObjectToAdd, UserData, AdditionalInfo } from './firebaseTypes';
+import { Category } from '../../store/categories/categoriesTypes';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyCE3fdbR6MUw5_3sFr6m3dJvx90PvqDMpM',
@@ -51,9 +56,9 @@ export const signInWithGooglePopup = () =>
 
 // Function used to create a new document of the user information in the firestore
 export const createUserDocumentFromAuth = async (
-	userAuth,
-	additionalInfo = {},
-) => {
+	userAuth: User,
+	additionalInfo = {} as AdditionalInfo,
+): Promise<void | QueryDocumentSnapshot<UserData>> => {
 	const userDocRef = doc(db, 'users', userAuth.uid);
 	const userSnapshot = await getDoc(userDocRef);
 
@@ -69,22 +74,28 @@ export const createUserDocumentFromAuth = async (
 				...additionalInfo,
 			});
 		} catch (error) {
-			console.log('Error creating the user!', error.message);
+			console.log('Error creating the user!', error);
 		}
 	}
 
-	return userSnapshot;
+	return userSnapshot as QueryDocumentSnapshot<UserData>;
 };
 
 // Function used to call the createUserDocumentFromAuth function to create a new user in the firebase authentication
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (
+	email: string,
+	password: string,
+) => {
 	if (!email || !password) return;
 
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
 // Function used to call the signInUserWithEmailAndPassword function to create a new user in the firebase authentication
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (
+	email: string,
+	password: string,
+) => {
 	if (!email || !password) return;
 
 	return await signInWithEmailAndPassword(auth, email, password);
@@ -94,11 +105,11 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 export const signOutUser = async () => await signOut(auth);
 
 // Function used to call the onAuthStateChanged function to listen to the user authentication state
-export const onAuthStateChangedListener = (callback) =>
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) =>
 	onAuthStateChanged(auth, callback);
 
 // Function used to call the getCurrentUser function to get the current user using the onAuthStateChanged observer
-export const getCurrentUser = () => {
+export const getCurrentUser = (): Promise<User | null> => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(
 			auth,
@@ -112,10 +123,10 @@ export const getCurrentUser = () => {
 };
 
 // Function to add initial products data to the firestore [TO BE RUN ONLY ONCE]
-export const addCollectionAndDocuments = async (
-	collectionsKey,
-	objectsToAdd,
-) => {
+export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
+	collectionsKey: string,
+	objectsToAdd: T[],
+): Promise<void> => {
 	const collectionRef = collection(db, collectionsKey);
 	const batch = writeBatch(db);
 
@@ -129,10 +140,12 @@ export const addCollectionAndDocuments = async (
 };
 
 // Function to get the initial categories data to the firestore
-export const getCategoriesAndDocuments = async () => {
+export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
 	const collectionRef = collection(db, 'categories');
 	const q = query(collectionRef);
 
 	const querySnapshot = await getDocs(q);
-	return querySnapshot.docs.map((querySnapshot) => querySnapshot.data());
+	return querySnapshot.docs.map(
+		(querySnapshot) => querySnapshot.data() as Category,
+	);
 };
