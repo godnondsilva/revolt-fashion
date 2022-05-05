@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import FormInput from '../form-input/FormInput';
@@ -26,7 +26,7 @@ const SignInForm = () => {
 		dispatch(googleSignInStart());
 	};
 
-	const handleChange = (event) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		// Set form fields to all the previous values plus the new value
 		setFormFields({ ...formFields, [name]: value });
@@ -37,12 +37,12 @@ const SignInForm = () => {
 		setFormFields(defaultFormFields);
 	};
 
-	const handleSubmit = async (event) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
 			dispatch(emailSignInStart(email, password));
 			// Reset the form fields to the default values
-			resetFormFields(defaultFormFields);
+			resetFormFields();
 		} catch (error) {
 			console.log('Could not sign in with email and password!');
 		}

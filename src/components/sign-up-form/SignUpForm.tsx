@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import FormInput from '../../components/form-input/FormInput';
+import FormInput from '../form-input/FormInput';
 import Button from '../button/Button';
 
 import { SignUpContainer, Heading } from './SignUpForm.styles';
 import { signUpStart } from '../../store/user/userActions';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 
 const defaultFormFields = {
 	displayName: '',
@@ -20,7 +21,7 @@ const SignUpForm = () => {
 
 	const dispatch = useDispatch();
 
-	const handleChange = (event) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		// Set form fields to all the previous values plus the new value
 		setFormFields({ ...formFields, [name]: value });
@@ -31,7 +32,7 @@ const SignUpForm = () => {
 		setFormFields(defaultFormFields);
 	};
 
-	const handleSubmit = async (event) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (password !== confirmPassword) {
@@ -46,7 +47,7 @@ const SignUpForm = () => {
 			resetFormFields();
 		} catch (error) {
 			// If the error code is 'auth/email-already-in-use' then display that the email is already in use
-			if (error.code === 'auth/email-already-in-use') {
+			if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
 				alert('Email already in use');
 			}
 			// Fallback error for all error cases

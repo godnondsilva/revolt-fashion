@@ -1,3 +1,4 @@
+import { FC, ButtonHTMLAttributes } from 'react';
 import {
 	DefaultButton,
 	GoogleSignInButton,
@@ -7,14 +8,16 @@ import {
 
 import { ButtonSpinner } from './Button.styles';
 
-export const BUTTON_TYPES = {
-	default: 1,
-	google: 2,
-	inverted: 3,
-	payment: 4,
-};
+export enum BUTTON_TYPES {
+	default = 1,
+	google = 2,
+	inverted = 3,
+	payment = 4,
+}
 
-const getButtonFromType = (buttonType = BUTTON_TYPES.default) =>
+const getButtonFromType = (
+	buttonType = BUTTON_TYPES.default,
+): typeof DefaultButton =>
 	({
 		[BUTTON_TYPES.default]: DefaultButton,
 		[BUTTON_TYPES.google]: GoogleSignInButton,
@@ -22,7 +25,17 @@ const getButtonFromType = (buttonType = BUTTON_TYPES.default) =>
 		[BUTTON_TYPES.payment]: PaymentButton,
 	}[buttonType]);
 
-const Button = ({ children, buttonType, isLoading, ...otherProps }) => {
+export type ButtonProps = {
+	buttonType?: BUTTON_TYPES;
+	isLoading?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button: FC<ButtonProps> = ({
+	children,
+	buttonType,
+	isLoading,
+	...otherProps
+}) => {
 	const CustomButton = getButtonFromType(buttonType);
 	return (
 		<CustomButton disabled={isLoading} {...otherProps}>
