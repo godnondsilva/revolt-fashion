@@ -10,11 +10,15 @@ import {
 } from '../../store/categories/categoriesSelector';
 import Spinner from '../../components/spinner/Spinner';
 
+type CategoryRouteParams = {
+	category: string;
+};
+
 const Category = () => {
 	const categoriesMap = useSelector(selectCategoriesMap);
 	const isLoading = useSelector(selectCategoriesIsLoading);
 
-	const { category } = useParams();
+	const { category } = useParams<CategoryRouteParams>() as CategoryRouteParams;
 
 	const products = categoriesMap[category];
 
