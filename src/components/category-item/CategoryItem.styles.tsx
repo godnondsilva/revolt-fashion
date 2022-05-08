@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
+type CategoryImageProps = {
+	imageUrl: string;
+};
+
 export const CategoryImage = styled.div`
 	width: 100%;
 	height: 100%;
 	background-size: cover;
 	background-position: center;
-	background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+	background-image: ${({ imageUrl }: CategoryImageProps) => `url(${imageUrl})`};
 `;
 
 export const CategoryItemBodyContainer = styled.div`

@@ -1,4 +1,5 @@
 import { CART_ACTION_TYPES, CartItem } from './cartTypes';
+import { CategoryItem } from '../categories/categoriesTypes';
 import {
 	createAction,
 	ActionWithPayload,
@@ -7,7 +8,7 @@ import {
 
 const addCartItem = (
 	cartItems: CartItem[],
-	productToAdd: CartItem,
+	productToAdd: CategoryItem,
 ): CartItem[] => {
 	const existingCartItem = cartItems.find(
 		(cartItem) => cartItem.id === productToAdd.id,
@@ -61,7 +62,7 @@ export const setCartItems = withMatcher(
 
 export const addItemToCart = (
 	cartItems: CartItem[],
-	productToAdd: CartItem,
+	productToAdd: CategoryItem,
 ) => {
 	const newCartItems = addCartItem(cartItems, productToAdd);
 	return setCartItems(newCartItems);
