@@ -13,7 +13,7 @@ import {
 	NavigationContainer,
 	NavLinksContainer,
 	NavLink,
-} from './Navigation.styles.jsx';
+} from './Navigation.styles';
 
 import { selectCurrentUser } from '../../store/user/userSelector';
 import { selectIsCartOpen } from '../../store/cart/cartSelector';
