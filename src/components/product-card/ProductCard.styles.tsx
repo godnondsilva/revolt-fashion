@@ -33,6 +33,18 @@ export const ProductCardContainer = styled.div`
 		top: 255px;
 		display: none;
 	}
+
+	@media screen and (max-width: 800px) {
+		img,
+		img:hover {
+			opacity: unset;
+		}
+		button {
+			display: flex;
+			min-width: unset;
+			width: unset;
+		}
+	}
 `;
 
 export const Footer = styled.div`
@@ -46,8 +58,17 @@ export const Footer = styled.div`
 export const Name = styled.span`
 	width: 90%;
 	margin-bottom: 15px;
+	@media screen and (max-width: 800px) {
+		width: 80%;
+		font-size: 14px;
+	}
 `;
 
 export const Price = styled.span`
 	width: 10%;
+	text-align: right;
+	@media screen and (max-width: 800px) {
+		width: 20%;
+		font-size: 14px;
+	}
 `;

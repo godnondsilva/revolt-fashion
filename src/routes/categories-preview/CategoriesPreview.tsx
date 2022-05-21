@@ -7,6 +7,8 @@ import {
 	selectCategoriesMap,
 } from '../../store/categories/categoriesSelector';
 
+import { CategoriesPreviewContainer } from './CategoriesPreview.styles';
+
 const CategoriesPreview = () => {
 	const categoriesMap = useSelector(selectCategoriesMap);
 	const isLoading = useSelector(selectCategoriesIsLoading);
@@ -16,17 +18,19 @@ const CategoriesPreview = () => {
 			{isLoading ? (
 				<Spinner />
 			) : (
-				Object.keys(categoriesMap).map((title) => {
-					const products = categoriesMap[title];
-					return (
-						<CategoryPreview
-							key={title}
-							title={title}
-							products={products}
-							productsToShow={4}
-						/>
-					);
-				})
+				<CategoriesPreviewContainer>
+					{Object.keys(categoriesMap).map((title) => {
+						const products = categoriesMap[title];
+						return (
+							<CategoryPreview
+								key={title}
+								title={title}
+								products={products}
+								productsToShow={4}
+							/>
+						);
+					})}
+				</CategoriesPreviewContainer>
 			)}
 		</div>
 	);

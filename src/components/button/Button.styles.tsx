@@ -8,7 +8,7 @@ export const DefaultButton = styled.button`
 	height: 50px;
 	letter-spacing: 0.5px;
 	line-height: 50px;
-	padding: 0 35px 0 35px;
+	padding: 0 35px;
 	font-size: 15px;
 	background-color: black;
 	color: white;
@@ -25,6 +25,11 @@ export const DefaultButton = styled.button`
 		background-color: white;
 		color: black;
 		border: 1px solid black;
+	}
+
+	@media screen and (max-width: 800px) {
+		padding: 0 20px;
+		min-width: 100px;
 	}
 `;
 

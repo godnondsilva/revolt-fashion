@@ -2,11 +2,10 @@ import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
-import Navigation from './routes/navigation/Navigation';
-
-// Spinner
-import Spinner from './components/spinner/Spinner';
+import { GlobalStyle } from './global.styles';
 import { checkUserSession } from './store/user/userActions';
+
+import Spinner from './components/spinner/Spinner';
 
 // Dynamic Routes
 const Home = lazy(() => import('./routes/home/Home'));
@@ -15,6 +14,7 @@ const Authentication = lazy(
 );
 const Shop = lazy(() => import('./routes/shop/Shop'));
 const Checkout = lazy(() => import('./routes/checkout/Checkout'));
+const Navigation = lazy(() => import('./routes/navigation/Navigation'));
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const App = () => {
 
 	return (
 		<Suspense fallback={<Spinner />}>
+			<GlobalStyle />
 			<Routes>
 				<Route path='/' element={<Navigation />}>
 					<Route index element={<Home />} />

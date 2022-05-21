@@ -39,7 +39,7 @@ export const CategoryItemBodyContainer = styled.div`
 
 export const CategoryItemContainer = styled.div`
 	min-width: 30%;
-	height: 240px;
+	height: 300px;
 	flex: 1 1 auto;
 	display: flex;
 	align-items: center;
@@ -58,6 +58,21 @@ export const CategoryItemContainer = styled.div`
 
 		& ${CategoryItemBodyContainer} {
 			opacity: 0.9;
+		}
+	}
+
+	@media screen and (max-width: 800px) {
+		&:hover {
+			cursor: pointer;
+
+			& .${CategoryImage} {
+				transform: scale(1.1);
+				transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+			}
+
+			& ${CategoryItemBodyContainer} {
+				opacity: 0.9;
+			}
 		}
 	}
 

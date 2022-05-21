@@ -18,19 +18,35 @@ export const ImageContainer = styled.div`
 		width: 100%;
 		height: 100%;
 	}
+	@media screen and (max-width: 800px) {
+		width: 20%;
+	}
 `;
 
 export const Name = styled.span`
 	width: 23%;
+
+	@media screen and (max-width: 800px) {
+		font-size: 14px;
+		width: 20%;
+	}
 `;
 
 export const Quantity = styled.span`
 	width: 23%;
 	display: flex;
+	@media screen and (max-width: 800px) {
+		font-size: 12px;
+		width: 20%;
+	}
 `;
 
 export const Price = styled.span`
 	width: 23%;
+	@media screen and (max-width: 800px) {
+		font-size: 12px;
+		width: 20%;
+	}
 `;
 
 export const Arrow = styled.div`

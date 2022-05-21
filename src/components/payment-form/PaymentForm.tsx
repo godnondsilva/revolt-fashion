@@ -8,7 +8,11 @@ import { selectCurrentUser } from '../../store/user/userSelector';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import Button, { BUTTON_TYPES } from '../button/Button';
 
-import { PaymentFormContainer, FormContainer } from './PaymentForm.styles';
+import {
+	PaymentFormContainer,
+	FormContainer,
+	Title,
+} from './PaymentForm.styles';
 
 const ifValidCardElement = (
 	card: StripeCardElement | null,
@@ -69,7 +73,7 @@ const PaymentForm = () => {
 	return (
 		<PaymentFormContainer>
 			<FormContainer onSubmit={paymentHandler}>
-				<h2>Credit Card Payment:</h2>
+				<Title>Credit Card Payment:</Title>
 				<CardElement />
 				<Button
 					isLoading={isProcessingPayment}

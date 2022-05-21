@@ -6,6 +6,7 @@ import ProductCard from '../product-card/ProductCard';
 
 import {
 	CategoryPreviewContainer,
+	TitleContainer,
 	Title,
 	Preview,
 } from './CategoryPreview.styles';
@@ -23,11 +24,11 @@ const CategoryPreview: FC<CategoryPreviewProps> = ({
 }) => {
 	return (
 		<CategoryPreviewContainer>
-			<h2>
+			<TitleContainer>
 				<Title as={Link} to={title}>
 					{title.toUpperCase()}
 				</Title>
-			</h2>
+			</TitleContainer>
 			<Preview>
 				{products
 					.filter((_, idx) => idx < productsToShow)
