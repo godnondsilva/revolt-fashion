@@ -39,6 +39,11 @@ export const HeaderBlock = styled.div`
 	}
 `;
 
+export const EmptyMessage = styled.div`
+	margin-top: 20px;
+	font-size: 18px;
+`;
+
 export const Total = styled.span`
 	margin-top: 30px;
 	margin-left: auto;
