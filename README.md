@@ -29,7 +29,7 @@ An E-commerce fashion store using React and Firebase.
 
             match /categories/{category} {
                 allow read;
-                allow write: if request.auth != null && request.auth.uid == "xKaNMDDVeIgw50zEGjaXI208Eaf2";
+                allow write: if request.auth != null && request.auth.uid == "YOUR_USER_DOCUMENT_ID";
             }
 
             match /{document=**} {
